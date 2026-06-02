@@ -13,7 +13,7 @@ export const Route = createFileRoute("/services")({
     ],
     links: [{ rel: "canonical", href: "/services" }],
   }),
-  component: Services,
+  component: ServicesPage,
 });
 
 const photo = [
@@ -29,10 +29,6 @@ const design = [
   { icon: Share2, title: "Social Media Creatives", text: "Templated and bespoke creative systems engineered for cohesive, on-brand feeds." },
   { icon: Layers, title: "Branding Design", text: "Full identity systems — logo, palette, type, voice, and a guidelines book your team can use." },
 ];
-
-export default function Services() {
-  return null;
-}
 
 function ServicesPage() {
   return (
@@ -56,7 +52,7 @@ function ServicesPage() {
           </div>
           <div className="grid gap-px bg-border md:grid-cols-2 lg:grid-cols-4">
             {photo.map((s) => (
-              <div key={s.title} className="bg-background p-8 group hover:bg-card transition-colors">
+              <div key={s.title} className="bg-background p-8 hover:bg-card transition-colors">
                 <s.icon className="text-gold" size={28} />
                 <h3 className="mt-6 font-display text-2xl">{s.title}</h3>
                 <p className="mt-3 text-sm text-muted-foreground leading-relaxed">{s.text}</p>
@@ -79,7 +75,7 @@ function ServicesPage() {
           </div>
           <div className="grid gap-px bg-border md:grid-cols-2 lg:grid-cols-4">
             {design.map((s) => (
-              <div key={s.title} className="bg-card p-8 group hover:bg-background transition-colors">
+              <div key={s.title} className="bg-card p-8 hover:bg-background transition-colors">
                 <s.icon className="text-gold" size={28} />
                 <h3 className="mt-6 font-display text-2xl">{s.title}</h3>
                 <p className="mt-3 text-sm text-muted-foreground leading-relaxed">{s.text}</p>
@@ -105,6 +101,3 @@ function ServicesPage() {
     </>
   );
 }
-
-// Wire route to component
-Route.update({ component: ServicesPage });
