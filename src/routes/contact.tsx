@@ -5,6 +5,7 @@ import { Mail, Phone, MapPin, MessageCircle, Send } from "lucide-react";
 import { z } from "zod";
 import { toast } from "sonner";
 import { Toaster } from "@/components/ui/sonner";
+import { supabase } from "@/integrations/supabase/client";
 
 export const Route = createFileRoute("/contact")({
   head: () => ({
@@ -31,7 +32,7 @@ function Contact() {
   const [form, setForm] = useState({ name: "", email: "", phone: "", message: "" });
   const [submitting, setSubmitting] = useState(false);
 
-  const onSubmit = (e: React.FormEvent) => {
+  const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const result = schema.safeParse(form);
     if (!result.success) {
@@ -39,11 +40,14 @@ function Contact() {
       return;
     }
     setSubmitting(true);
-    setTimeout(() => {
-      setSubmitting(false);
-      toast.success("Thank you — we'll be in touch within 24 hours.");
-      setForm({ name: "", email: "", phone: "", message: "" });
-    }, 700);
+    const { error } = await supabase.from("contact_submissions").insert(result.data);
+    setSubmitting(false);
+    if (error) {
+      toast.error("Something went wrong — please try again or email us directly.");
+      return;
+    }
+    toast.success("Thank you — we'll be in touch within 24 hours.");
+    setForm({ name: "", email: "", phone: "", message: "" });
   };
 
   return (
